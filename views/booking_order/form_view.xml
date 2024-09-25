@@ -7,15 +7,16 @@
         <!-- Insert custom fields after the 'customer' field, or another logical place -->
         <xpath expr="//group[@name='order_details']" position="after">
             <group>
+                <field name="booking_start"/>
+                <field name="booking_end"/>
+            </group>
+            
+            <group>
                 <field name="team"/>
                 <field name="team_leader"/>
                 <field name="team_members"/>
             </group>
-
-            <group>
-                <field name="booking_start"/>
-                <field name="booking_end"/>
-            </group>
+            
         </xpath>
     </field>
 </record>
