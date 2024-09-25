@@ -30,6 +30,10 @@
         'views/booking_order/form_view.xml',
         'views/booking_order/action.xml',
         
+        # For Work Order Model
+        'views/work_order/tree_view.xml',
+        'views/work_order/action.xml',
+        
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

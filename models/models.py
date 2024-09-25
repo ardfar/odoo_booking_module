@@ -71,9 +71,8 @@ class SaleOrder(models.Model):
                 'planned_start': self.booking_start,
                 'planned_end': self.booking_end,
                 'state': 'pending',
+                'booking_order_reference': self.id,  # set booking reference directly
             })
-            work_order.booking_order_reference = self.id
-            work_order.write({'name': 'New'})
             
             return res
     
@@ -107,7 +106,7 @@ class WorkOrder(models.Model):
     _name = 'booking_order_farras_arrafi_26092024.work_order'
     _description = 'Work Order'
     
-    name = fields.Char("WO Number", required=True, readonly=True, copy=False, default=lambda self: 'New')
+    name = fields.Char("WO Number", required=True, readonly=True, copy=False, default='New')
     booking_order_reference = fields.Many2one('sale.order', string='Booking Order Reference', readonly=True)
     
     # Team Settings 
@@ -134,10 +133,9 @@ class WorkOrder(models.Model):
     notes = fields.Text('Notes')
     
     @api.model
-    def write(self, vals):
-        # If the name is 'New', generate a name using the sequence
+    def create(self, vals):
+        # If the name is still 'New', generate a sequence number
         if vals.get('name', 'New') == 'New':
-            # Try to get the next sequence value
-            vals['name'] = self.env['ir.sequence'].next_by_code('wo_sequence') or 'WO00000'
-        return super().write(vals)
+            vals['name'] = self.env['ir.sequence'].next_by_code('work_order_seq') or 'WO00000'
+        return super(WorkOrder, self).create(vals)
     

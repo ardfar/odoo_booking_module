@@ -1,0 +1,13 @@
+<odoo>
+    <record id="action_work_order" model="ir.actions.act_window">
+        <field name="name">Work Order</field>
+        <field name="res_model">booking_order_farras_arrafi_26092024.work_order</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new work order.
+            </p>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,19 @@
+<odoo>
+<record id="view_work_order_tree" model="ir.ui.view">
+    <field name="name">work_order.tree</field>
+    <field name="model">booking_order_farras_arrafi_26092024.work_order</field>
+    <field name="arch" type="xml">
+            <tree string="Work Order">
+                <field name="name"/>
+                <field name="booking_order_reference"/>
+                <field name="team"/>
+                <field name="team_leader"/>
+                <field name="team_members"/>
+                <field name="planned_start"/>
+                <field name="planned_end"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </tree>
+        </field>
+</record>
+</odoo>
