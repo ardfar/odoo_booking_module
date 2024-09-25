@@ -1,0 +1,11 @@
+<record id="view_service_team_tree" model="ir.ui.view">
+    <field name="name">service.team.tree</field>
+    <field name="model">booking_order_farras_arrafi_26092024.service_team</field>
+    <field name="arch" type="xml">
+        <tree string="Service Teams">
+            <field name="name"/>
+            <field name="team_leader"/>
+            <field name="team_members"/>
+        </tree>
+    </field>
+</record>

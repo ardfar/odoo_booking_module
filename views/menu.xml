@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <!-- Top Menu: Booking under Sales -->
+    <menuitem id="menu_booking_root" name="Booking" parent="sale.sale_menu_root" sequence="60">
+        <!-- Submenu: Service Team -->
+        <menuitem id="menu_service_team" name="Service Team" action="action_service_team" sequence="10"/>
+    </menuitem>
+
+</odoo>

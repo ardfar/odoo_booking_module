@@ -1,0 +1,13 @@
+<record id="view_service_team_form" model="ir.ui.view">
+    <field name="name">service.team.form</field>
+    <field name="model">booking_order_farras_arrafi_26092024.service_team</field>
+    <field name="arch" type="xml">
+        <form string="Service Team">
+            <group>
+                <field name="name"/>
+                <field name="team_leader"/>
+                <field name="team_members"/>
+            </group>
+        </form>
+    </field>
+</record>
