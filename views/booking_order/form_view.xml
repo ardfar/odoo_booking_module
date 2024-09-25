@@ -12,9 +12,9 @@
             </group>
             
             <group>
-                <field name="team"/>
-                <field name="team_leader"/>
-                <field name="team_members"/>
+                <field name="team" options="{'no_create': True}"/>
+                <field name="team_leader" readonly="1"/>
+                <field name="team_members" readonly="1" widget="many2many_tags"/>
             </group>
             
         </xpath>

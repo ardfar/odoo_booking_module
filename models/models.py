@@ -35,6 +35,15 @@ class SaleOrder(models.Model):
         # Call super
         return super(SaleOrder, self).create(vals)
     
+    @api.onchange('team')
+    def _onchange_team(self):
+        if self.team:
+            self.team_leader = self.team.team_leader.id
+            self.team_members = [(6, 0, self.team.team_members.ids)]
+        else:
+            self.team_leader = False
+            self.team_members = [(5, 0, 0)]
+    
 class WorkOrder(models.Model):
     
     # Model info 
