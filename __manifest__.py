@@ -27,6 +27,7 @@
         
         # For Booking Order Model 
         'views/booking_order/tree_view.xml',
+        'views/booking_order/form_view.xml',
         'views/booking_order/action.xml',
         
         'views/menu.xml',

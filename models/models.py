@@ -28,6 +28,13 @@ class SaleOrder(models.Model):
     booking_start = fields.Datetime('Booking Start')
     booking_end = fields.Datetime('Booking End')
     
+    @api.model
+    def create(self, vals):
+        # Set booking order to True
+        vals['is_booking_order'] = True
+        # Call super
+        return super(SaleOrder, self).create(vals)
+    
 class WorkOrder(models.Model):
     
     # Model info 
