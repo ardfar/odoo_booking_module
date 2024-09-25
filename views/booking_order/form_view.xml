@@ -27,6 +27,15 @@
             invisible="state in ['sent', 'sale', 'cancel']">
             </button>
         </xpath>
+
+        <xpath expr="//field[@name='locked']" position="before">
+            <button 
+            name="action_view_related_work_order" 
+            type="object" string="Open Work Order" 
+            invisible="state != 'sale'"
+            class="btn-primary">
+            </button>
+        </xpath>
     </field>
 </record>
 </odoo>

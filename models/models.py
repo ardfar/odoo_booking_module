@@ -97,6 +97,23 @@ class SaleOrder(models.Model):
                     'sticky': False,
                 }
             }
+            
+    def action_view_related_work_order(self):
+        # Find the related work order based on booking_order_reference
+        work_orders = self.env['booking_order_farras_arrafi_26092024.work_order'].search([('booking_order_reference', '=', self.id)])
+
+        if not work_orders:
+            raise UserError("No Work Order found for this Sale Order.")
+
+        # Return an action to open the form view of the work order
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Work Order',
+            'view_mode': 'form',
+            'res_model': 'booking_order_farras_arrafi_26092024.work_order',
+            'res_id': work_orders.id,  # assuming there is only one related work order
+            'target': 'current',
+        }
     
     
     
