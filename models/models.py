@@ -31,23 +31,51 @@ class SaleOrder(models.Model):
     
     @api.model
     def create(self, vals):
-        if 'prevent_save' in self._context:
-            return True
-        else:
-            # Set booking order to True
-            vals['is_booking_order'] = True
+        # Set booking order to True
+        vals['is_booking_order'] = True
             # Call super
-            return super(SaleOrder, self).create(vals)
+        return super(SaleOrder, self).create(vals)
+    
+    def check_availability(self):
+        team = self.team
+        booking_start = self.booking_start
+        booking_end = self.booking_end
+        
+        if not team or not booking_start or not booking_end:
+            raise UserError(f"Please make sure to select a team and set booking dates")
+        
+        overlapping_work = self.env['booking_order_farras_arrafi_26092024.work_order'].search([
+            ('team', '=', team.id),
+            ('state', '!=', 'cancelled'),
+            ('planned_start', '<=', booking_end),
+            ('planned_end', '>=', booking_start)
+        ])
+        
+        overlapping_work_ids = overlapping_work.ids
+        overlapping_work_names = self.env['booking_order_farras_arrafi_26092024.work_order'].browse(overlapping_work_ids).mapped('name')
+        
+        if overlapping_work:
+            raise UserError(f"Team already has work order during that period on {overlapping_work_names}")
+        
+        return True
     
     @api.model
-    def write(self, vals):
-        if 'prevent_save' in self._context:
-            return True
-        else:
-            # Set booking order to True
-            vals['is_booking_order'] = True
-            # Call super
-            return super().write(vals)
+    def action_confirm(self):
+        if self.check_availability():
+            res = super(SaleOrder, self).action_confirm()
+            
+            work_order = self.env['booking_order_farras_arrafi_26092024.work_order'].create({
+                'team': self.team.id,
+                'team_leader': self.team_leader.id,
+                'team_members': [(6, 0, self.team_members.ids)],
+                'planned_start': self.booking_start,
+                'planned_end': self.booking_end,
+                'state': 'pending',
+            })
+            work_order.booking_order_reference = self.id
+            work_order.write({'name': 'New'})
+            
+            return res
     
     @api.onchange('team')
     def _onchange_team(self):
@@ -58,38 +86,18 @@ class SaleOrder(models.Model):
             self.team_leader = False
             self.team_members = [(5, 0, 0)]
     
-    @api.depends('team', 'booking_start', 'booking_end')
     def action_check_booking_order(self):
         
-        team = self.team
-        booking_start = self.booking_start
-        booking_end = self.booking_end
-        
-        if not team or not booking_start or not booking_end:
-            raise UserError(f"Please make sure to select a team and set booking dates")
-        
-        overlapping_work = self.env['booking_order_farras_arrafi_26092024.work_order'].search([
-            ('team', '=', team.id),
-            ('state', '=', 'in_progress'),
-            ('planned_start', '<=', booking_end),
-            ('planned_end', '>=', booking_start)
-        ])
-        
-        overlapping_work_ids = overlapping_work.ids
-        overlapping_work_names = self.env['booking_order_farras_arrafi_26092024.work_order'].browse(overlapping_work_ids).mapped('name')
-        
-        if overlapping_work:
-            raise UserError("Team already has work order during that period on {overlapping_work_names}")
-        
-        return {
-            'type': 'ir.actions.client',
-            'tag': 'display_notification',
-            'params': {
-                'title': 'Success',
-                'message': 'The selected booking dates are available. You can proceed with saving the record.',
-                'sticky': False,
+        if self.check_availability():
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'title': 'Success',
+                    'message': 'The selected booking dates are available. You can proceed with saving the record.',
+                    'sticky': False,
+                }
             }
-        }
     
     
     
@@ -99,7 +107,7 @@ class WorkOrder(models.Model):
     _name = 'booking_order_farras_arrafi_26092024.work_order'
     _description = 'Work Order'
     
-    name = fields.Char("WO Number", required=True, default=lambda self: self.env['ir.sequence'].next_by_code('wo_sequence'))
+    name = fields.Char("WO Number", required=True, readonly=True, copy=False, default=lambda self: 'New')
     booking_order_reference = fields.Many2one('sale.order', string='Booking Order Reference', readonly=True)
     
     # Team Settings 
@@ -124,4 +132,12 @@ class WorkOrder(models.Model):
     ], string='Status', default='pending', readonly=True)
     
     notes = fields.Text('Notes')
+    
+    @api.model
+    def write(self, vals):
+        # If the name is 'New', generate a name using the sequence
+        if vals.get('name', 'New') == 'New':
+            # Try to get the next sequence value
+            vals['name'] = self.env['ir.sequence'].next_by_code('wo_sequence') or 'WO00000'
+        return super().write(vals)
     
