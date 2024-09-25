@@ -1,0 +1,14 @@
+<odoo>
+<record id="view_booking_order_tree" model="ir.ui.view">
+    <field name="name">sale.order.inherit.tree</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_tree"/>
+    <field name="arch" type="xml">
+        <xpath expr="//tree/field[1]" position="before">
+            <field name="booking_start"/>
+            <field name="booking_end"/>
+            <field name="team"/>
+        </xpath>
+    </field>
+</record>
+</odoo>

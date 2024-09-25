@@ -1,0 +1,14 @@
+<odoo>
+    <record id="action_booking_order" model="ir.actions.act_window">
+        <field name="name">Booking Orders</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_booking_order_tree"/>
+        <field name="domain">[('is_booking_order', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new booking order
+            </p>
+        </field>
+    </record>
+</odoo>

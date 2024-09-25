@@ -19,9 +19,16 @@
     'data': [
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
+        
+        # For Service Team Model
         'views/service_team/tree_view.xml',
         'views/service_team/form_view.xml',
         'views/service_team/action.xml',
+        
+        # For Booking Order Model 
+        'views/booking_order/tree_view.xml',
+        'views/booking_order/action.xml',
+        
         'views/menu.xml',
     ],
     # only loaded in demonstration mode

@@ -3,8 +3,12 @@
     
     <!-- Top Menu: Booking under Sales -->
     <menuitem id="menu_booking_root" name="Booking" parent="sale.sale_menu_root" sequence="60">
+
         <!-- Submenu: Service Team -->
         <menuitem id="menu_service_team" name="Service Team" action="action_service_team" sequence="10"/>
+
+        <!-- Submenu: Booking Order -->
+        <menuitem id="menu_booking_order" name="Booking Order" action="action_booking_order" sequence="20"/>
     </menuitem>
 
 </odoo>
