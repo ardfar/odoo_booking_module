@@ -3,6 +3,7 @@
         <field name="name">Service Team</field>
         <field name="res_model">booking_order_farras_arrafi_26092024.service_team</field>
         <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_service_team_tree"/>
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">
                 Click to create a new service team.

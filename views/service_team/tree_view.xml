@@ -1,5 +1,6 @@
+<odoo>
 <record id="view_service_team_tree" model="ir.ui.view">
-    <field name="name">service.team.tree</field>
+    <field name="name">service_team.tree</field>
     <field name="model">booking_order_farras_arrafi_26092024.service_team</field>
     <field name="arch" type="xml">
         <tree string="Service Teams">
@@ -9,3 +10,4 @@
         </tree>
     </field>
 </record>
+</odoo>
