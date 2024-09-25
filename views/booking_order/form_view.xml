@@ -13,10 +13,15 @@
             
             <group>
                 <field name="team" options="{'no_create': True}"/>
-                <field name="team_leader" readonly="1"/>
-                <field name="team_members" readonly="1" widget="many2many_tags"/>
+                <field name="team_leader" readonly="1" force_save="1"/>
+                <field name="team_members" readonly="1" force_save="1" widget="many2many_tags"/>
             </group>
             
+        </xpath>
+
+        <xpath expr="//button[@name='action_confirm']" position="after">
+            <button name="action_check_booking_order" type="object" string="Check Avaibility" context="{'prevent_save': True}">
+            </button>
         </xpath>
     </field>
 </record>
