@@ -20,7 +20,11 @@
         </xpath>
 
         <xpath expr="//button[@name='action_confirm']" position="after">
-            <button name="action_check_booking_order" type="object" string="Check Avaibility" context="{'prevent_save': True}">
+            <button 
+            name="action_check_booking_order" 
+            type="object" string="Check Avaibility" 
+            context="{'prevent_save': True}"
+            invisible="state in ['sent', 'sale', 'cancel']">
             </button>
         </xpath>
     </field>
