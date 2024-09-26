@@ -1,0 +1,58 @@
+<odoo>
+    <template id="report_work_order_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <div class="page">
+                    <!-- styling  -->
+                    <style>
+                        table {
+                            width: 100%;
+                            border-collapse: collapse;
+                        }
+                        td, th {
+                            padding: 5px;
+                            border: 1px solid black;
+                        }
+                        .page {
+                            margin-top: 20px;
+                        }
+                        h2 {
+                            text-align: center;
+                        }
+                    </style>
+
+                    <!-- Work Order Number -->
+                    <h2><t t-esc="o.name"/></h2>
+                    
+                    <!-- Table for Team Name, Customer, Booking Ref, Date -->
+                    <table class="table table-condensed">
+                        <tr>
+                            <td><strong>Team Name</strong></td>
+                            <td><t t-esc="o.team.name"/></td>
+                            <td><strong>Customer</strong></td>
+                            <td><t t-esc="o.booking_order_reference.partner_id.name"/></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Booking Order Ref</strong></td>
+                            <td><t t-esc="o.booking_order_reference.name"/></td>
+                            <td><strong>Date</strong></td>
+                            <td><t t-esc="o.planned_start"/> - <t t-esc="o.planned_end"/></td>
+                        </tr>
+                    </table>
+
+                    <!-- Notes -->
+                    <div>
+                        <strong>NOTES:</strong>
+                        <p t-esc="o.notes or ''"/>
+                    </div>
+                    
+                    <!-- Signature -->
+                    <div>
+                        <strong>Signature:</strong>
+                        <p>_____________________________</p>
+                    </div>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

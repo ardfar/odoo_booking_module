@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_service_team,access_service_team,model_booking_order_farras_arrafi_26092024_service_team,,1,1,1,1
 access_work_order,access_work_order,model_booking_order_farras_arrafi_26092024_work_order,,1,1,1,1
 access_sale_order_inherit,access_sale_order_inherit,model_sale_order,,1,1,1,1
+access_work_order_cancel_wizard_user,access.work_order_cancel_wizard.user,model_booking_order_farras_arrafi_26092024_work_order_cancel_wizard,,1,1,1,1

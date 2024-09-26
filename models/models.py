@@ -46,7 +46,7 @@ class SaleOrder(models.Model):
         
         overlapping_work = self.env['booking_order_farras_arrafi_26092024.work_order'].search([
             ('team', '=', team.id),
-            ('state', '!=', 'cancelled'),
+            ('state', '!=', 'cancel'),
             ('planned_start', '<=', booking_end),
             ('planned_end', '>=', booking_start)
         ])
@@ -144,7 +144,7 @@ class WorkOrder(models.Model):
         ('pending', 'Pending'),
         ('in_progress', 'In Progress'),
         ('done', 'Done'),
-        ('cancelled', 'Cancelled'),
+        ('cancel', 'Cancelled'),
     ], string='Status', default='pending', readonly=True)
     
     notes = fields.Text('Notes')
@@ -155,4 +155,54 @@ class WorkOrder(models.Model):
         if vals.get('name', 'New') == 'New':
             vals['name'] = self.env['ir.sequence'].next_by_code('work_order_seq') or 'WO00000'
         return super(WorkOrder, self).create(vals)
+    
+    def action_start(self):
+        self.write({
+            'state': 'in_progress',
+            'date_start': fields.Datetime.now()
+        })
+        
+    def action_done(self):
+        self.write({
+            'state': 'done',
+            'date_end': fields.Datetime.now()
+        })
+    
+    def action_reset(self):
+        self.write({
+            'state': 'pending',
+            'date_start': False,
+        })
+        
+    def action_cancel_wizard(self):
+        return {
+            'name': 'Cancel Work Order',
+            'type': 'ir.actions.act_window',
+            'res_model': 'booking_order_farras_arrafi_26092024.work_order.cancel_wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'active_id': self.id}
+        }
+        
+    def print_work_order(self):
+        return self.env.ref('booking_order_farras_arrafi_26092024.action_report_work_order').report_action(self)
+        
+    
+class WorkOrderCancelWizard(models.TransientModel):
+    _name = 'booking_order_farras_arrafi_26092024.work_order.cancel_wizard'
+
+    reason = fields.Text(string='Cancellation Reason', required=True)
+    
+    def action_cancel(self):
+        active_id = self.env.context.get('active_id')
+        if active_id:
+            work_order = self.env['booking_order_farras_arrafi_26092024.work_order'].browse(active_id)
+            work_order.write({
+                'state': 'cancel',
+                'notes': self.reason,
+            })
+            
+            return True
+        
+        
     

@@ -31,7 +31,11 @@
         'views/booking_order/action.xml',
         
         # For Work Order Model
+        'views/work_order/utilities/cancel_work_wizard.xml',
+        'views/work_order/utilities/report.xml',
+        'views/work_order/utilities/report_action.xml',
         'views/work_order/tree_view.xml',
+        'views/work_order/form_view.xml',
         'views/work_order/action.xml',
         
         'views/menu.xml',

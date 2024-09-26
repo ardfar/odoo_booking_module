@@ -1,0 +1,30 @@
+<odoo>
+<!-- Paper Format  -->
+<record id="paperformat_a6" model="report.paperformat">
+    <field name="name">A6 landscape</field>
+    <field name="default" eval="False"/>
+    <field name="format">A6</field>
+    <field name="page_height">0</field>
+    <field name="page_width">0</field>
+    <field name="orientation">Landscape</field>
+    <field name="margin_top">20</field>
+    <field name="margin_bottom">20</field>
+    <field name="margin_left">7</field>
+    <field name="margin_right">7</field>
+    <field name="header_line" eval="False"/>
+    <field name="header_spacing">35</field>
+    <field name="dpi">90</field>
+</record>
+
+<!-- Main Acttion  -->
+<record id="action_report_work_order" model="ir.actions.report">
+    <field name="paperformat_id" ref="booking_order_farras_arrafi_26092024.paperformat_a6"/>
+    <field name="name">Work Order</field>
+    <field name="model">booking_order_farras_arrafi_26092024.work_order</field>
+    <field name="report_type">qweb-pdf</field>
+    <field name="report_name">booking_order_farras_arrafi_26092024.report_work_order_template</field>
+    <field name="report_file">booking_order_farras_arrafi_26092024.report_work_order_template</field>
+    <field name="binding_model_id" ref="model_booking_order_farras_arrafi_26092024_work_order"/>
+    <field name="binding_type">report</field>
+</record>
+</odoo>
